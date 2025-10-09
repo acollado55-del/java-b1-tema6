@@ -1,0 +1,76 @@
+import org.junit.jupiter.api.Test;
+import java.util.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TaskManagerTest {
+
+    @Test
+    public void testCreateTaskList() {
+        List<String> tasks = TaskManager.createTaskList();
+        assertNotNull(tasks);
+        assertTrue(tasks.isEmpty());
+    }
+
+    @Test
+    public void testAddAndAddUrgentTask() {
+        List<String> tasks = TaskManager.createTaskList();
+        TaskManager.addTask(tasks, "task1");
+        TaskManager.addUrgentTask(tasks, "urgent1");
+        assertEquals(List.of("urgent1", "task1"), tasks);
+    }
+
+    @Test
+    public void testMergeTaskLists() {
+        List<String> list1 = new LinkedList<>(List.of("a", "b"));
+        List<String> list2 = new LinkedList<>(List.of("c", "d"));
+        TaskManager.mergeTaskLists(list1, list2);
+        assertEquals(List.of("a", "b", "c", "d"), list1);
+    }
+
+    @Test
+    public void testMarkCompleted() {
+        List<String> tasks = new LinkedList<>(List.of("a", "b", "c", "d"));
+        Set<String> done = Set.of("b", "d");
+        TaskManager.markCompleted(tasks, done);
+        assertEquals(List.of("a", "c"), tasks);
+    }
+
+    @Test
+    public void testUpdateTask() {
+        List<String> tasks = new ArrayList<>(List.of("fix bug", "write test"));
+        TaskManager.updateTask(tasks, "fix bug", "fix login bug");
+        assertEquals(List.of("fix login bug", "write test"), tasks);
+    }
+
+    @Test
+    public void testGetNextTasks() {
+        List<String> tasks = new ArrayList<>(List.of("T1", "T2", "T3", "T4"));
+        List<String> result = TaskManager.getNextTasks(tasks, 1, 2);
+        assertEquals(List.of("T2", "T3"), result);
+    }
+
+    @Test
+    public void testGetNextTasksOutOfBounds() {
+        List<String> tasks = new ArrayList<>(List.of("T1", "T2"));
+        List<String> result = TaskManager.getNextTasks(tasks, 5, 2);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void testReviewTasksOutput() {
+        List<String> tasks = new ArrayList<>(List.of("T1", "T2", "T3"));
+
+        // Capturar la salida estándar
+        PrintStream originalOut = System.out;
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
+        TaskManager.reviewTasks(tasks);
+
+        System.setOut(originalOut); // restaurar
+
+        String expectedOutput = String.join(System.lineSeparator(), "T1", "T2", "T3") + System.lineSeparator();
+        assertEquals(expectedOutput, outContent.toString());
+    }
+}
