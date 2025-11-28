@@ -112,16 +112,35 @@ public class UniqueRegistration {
 
     public void registerParticipants(String[] entries) {
         // TODO: Register emails without duplicates, maintaining original order.
+        for (String email : entries) {
+            registered.add(email);
+        }   
+
     }
 
     public List<String> generateAlphabeticalList() {
         // TODO: Return a list of registered emails in alphabetical order.
-        return null;
-    }
+        TreeSet<String> sortedList = new TreeSet<>(registered);
+        return new ArrayList<>(sortedList);
+
+
+            // Just to iterate and ensure the TreeSet is populated
+        }
+       
+
+       
+    
 
     public List<String> checkRegistrations(String[] toCheck) {
         // TODO: Return a list of emails from toCheck that are already registered.
-        return null;
+        List<String> found = new ArrayList<>();
+        for (String email : toCheck) {
+            if (registered.contains(email)) {
+                found.add(email);
+            }
+        }
+        return found;
+       
     }
 
     public Set<String> getRegistered() {
@@ -131,12 +150,12 @@ public class UniqueRegistration {
     // -------------------------------------------------------------
     // Manual test using IDE
     // -------------------------------------------------------------
-    /*
+   
     public static void main(String[] args) {
         UniqueRegistration reg = new UniqueRegistration();
 
         String[] rawData = {
-            "ana@example.com", "carla@example.com", "ana@example.com", "jose@example.com"
+            "ana@example.com",  "ana@example.com", "jose@example.com", "carla@example.com"
         };
         reg.registerParticipants(rawData);
         System.out.println("== Registration Order ==");
@@ -153,7 +172,7 @@ public class UniqueRegistration {
         System.out.println("\n== Already Registered ==");
         System.out.println(found);
     }
-    */
+    
     // Torna a comentar aquest main quan vulguis executar els tests amb maven test
     // Vuelve a comentar este main cuando quieras ejecutar los tests con:
     // mvn test
