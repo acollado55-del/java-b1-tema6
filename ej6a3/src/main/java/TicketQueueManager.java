@@ -128,30 +128,45 @@ public class TicketQueueManager {
 
     public void addTicket(String ticket) {
         // TODO: Add the ticket to the queue.
+        ticketQueue.add(ticket);
+    
     }
 
     public String getNextTicket() {
         // TODO: Return the first ticket in the queue without removing it.
+        if (!ticketQueue.isEmpty()) {
+            return ticketQueue.peek();
+        }
         return null;
+        
     }
 
     public void processTicket() {
         // TODO: Remove and process the first ticket in the queue.
+        if (!ticketQueue.isEmpty()) {
+            ticketQueue.poll();
+        }
+
     }
 
     public void printAllTickets() {
         // TODO: Print all tickets currently in the queue, one per line.
+        for (String ticket : ticketQueue) {
+            System.out.println(ticket);
+        }
+
     }
 
     public boolean isTicketPresent(String ticket) {
         // TODO: Return true if the ticket is in the queue; false otherwise.
-        return false;
+        return ticketQueue.contains(ticket);
+       
     }
 
     // -------------------------------------------------------------
     // Manual test using IDE
     // -------------------------------------------------------------
-    /*
+    
     public static void main(String[] args) {
         TicketQueueManager manager = new TicketQueueManager();
         manager.addTicket("Software issue");
@@ -166,7 +181,7 @@ public class TicketQueueManager {
 
         System.out.println(manager.isTicketPresent("Printer not working")); // true
     }
-    */
+    
     // Torna a comentar aquest main quan vulguis executar els tests amb maven test
     // Vuelve a comentar este main cuando quieras ejecutar los tests con:
     // mvn test
