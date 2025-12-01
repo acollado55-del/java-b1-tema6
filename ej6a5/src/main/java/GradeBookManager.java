@@ -112,49 +112,86 @@ import java.util.*;
  * // Carlos -> [92]
  */
 
-public class GradeBookManager {
+public class GradeBookManager 
+{
 
     private Map<String, List<Integer>> gradeBook;
 
-    public GradeBookManager() {
+    public GradeBookManager() 
+    {
         this.gradeBook = new TreeMap<>();
     }
 
-    public void addScore(String student, int score) {
+    public void addScore(String student, int score) 
+    {
         // TODO: Add score to the given student. Create new list if student does not exist.
+        if (gradeBook.containsKey(student)) 
+            {
+            gradeBook.get(student).add(score);
+            return;
+            }
+        List<Integer> scores = new ArrayList<>();
+        scores.add(score);
+        gradeBook.put(student, scores);
+        
     }
 
-    public double getAverage(String student) {
+    public double getAverage(String student) 
+    {
         // TODO: Return average of the student's scores.
         // Return -1 if student does not exist, 0 if they have no scores.
-        return 0;
+        if (!gradeBook.containsKey(student)) 
+            return -1;
+        List<Integer> scores = gradeBook.get(student);
+        if (scores.isEmpty())
+        {
+            return 0;
+        }
+        double sum = 0;
+        for (int score : scores) 
+        {
+            sum += score;
+        }
+        return sum / scores.size(); 
+       
     }
 
-    public void removeStudent(String student) {
+    public void removeStudent(String student) 
+    {
         // TODO: Remove the student from the grade book.
+        gradeBook.remove(student);
+
     }
 
-    public void printGradeBook() {
+    public void printGradeBook() 
+    {
         // TODO: Print all students and their scores in alphabetical order.
+        for (Map.Entry<String, List<Integer>> entry : gradeBook.entrySet()) 
+        {
+            System.out.println(entry.getKey() + " -> " + entry.getValue());
+        }
+
     }
 
     // -------------------------------------------------------------
     // Manual test using IDE
     // -------------------------------------------------------------
-    /*
+    
     public static void main(String[] args) {
         GradeBookManager gb = new GradeBookManager();
         gb.addScore("Alice", 90);
         gb.addScore("Bob", 75);
         gb.addScore("Alice", 85);
         gb.addScore("Carlos", 92);
+        gb.addScore("Bob", 70);
 
         gb.printGradeBook();
         System.out.println("Alice average: " + gb.getAverage("Alice"));
+        System.out.println("Bob average: " + gb.getAverage("Bob"));
         gb.removeStudent("Bob");
         gb.printGradeBook();
     }
-    */
+    
     // Torna a comentar aquest main quan vulguis executar els tests amb maven test
     // Vuelve a comentar este main cuando quieras ejecutar los tests con:
     // mvn test
