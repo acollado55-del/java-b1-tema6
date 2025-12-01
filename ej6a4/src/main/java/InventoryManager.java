@@ -1,5 +1,7 @@
 import java.util.*;
 
+import javax.lang.model.util.ElementScanner14;
+
 /**
  * Gestor de inventario del almacén
  * ------------------------------------------
@@ -135,36 +137,77 @@ import java.util.*;
  */
 public class InventoryManager {
 
-    public static Map<String, Integer> createInventory() {
+
+    public static Map<String, Integer> createInventory() 
+    {
         // TODO: Create and return a new HashMap
-        return null;
+        Map<String, Integer> inventory = new HashMap<String, Integer>();
+        return inventory;
     }
 
-    public static void addProduct(Map<String, Integer> inventory, String product, int quantity) {
+    public static void addProduct(Map<String, Integer> inventory, String product, int quantity) 
+    {
         // TODO: Add the product with quantity or increment existing quantity
+        if (!inventory.containsKey(product)) 
+            {
+            inventory.put(product, quantity);
+            }
+        else
+            {
+            inventory.put(product, inventory.get(product) + quantity);
+            }
     }
 
-    public static void updateStock(Map<String, Integer> inventory, String product, int newQuantity) {
+    public static void updateStock(Map<String, Integer> inventory, String product, int newQuantity) 
+    {
         // TODO: If the product exists, update its quantity to newQuantity
+        if (inventory.containsKey(product)) 
+            {
+            inventory.put(product, newQuantity);
+            }   
     }
 
-    public static void removeZeroStock(Map<String, Integer> inventory) {
+    public static void removeZeroStock(Map<String, Integer> inventory) 
+    {
         // TODO: Remove all entries where quantity is 0 using a for-each structure
+        for (Map.Entry<String, Integer> entrada : inventory.entrySet()) 
+            {
+            if (entrada.getValue() == 0) 
+                {
+                inventory.remove(entrada.getKey());
+                }
+            }   
+        
     }
 
-    public static int getStock(Map<String, Integer> inventory, String product) {
+    public static int getStock(Map<String, Integer> inventory, String product) 
+    {
         // TODO: Return the stock for the product, or 0 if not present
-        return 0;
+        if (inventory.containsKey(product)) 
+            {
+            return inventory.get(product);
+            }
+            else
+            {     
+            return 0;
+            }
     }
 
-    public static void printInventory(Map<String, Integer> inventory) {
+    public static void printInventory(Map<String, Integer> inventory) 
+    {
         // TODO: Print all product names and their quantities
+        System.out.println("== Current Inventory ==");
+        for (Map.Entry<String, Integer> entry : inventory.entrySet()) 
+            {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+            }
+
     }
 
     // -------------------------------------------------------------
     // Manual test using IDE
     // -------------------------------------------------------------
-    /*
+    
     public static void main(String[] args) {
         Map<String, Integer> inventory = createInventory();
         addProduct(inventory, "Mouse", 10);
@@ -176,7 +219,7 @@ public class InventoryManager {
         System.out.println("Keyboard stock: " + getStock(inventory, "Keyboard"));
         printInventory(inventory);
     }
-    */
+    
 	// Torna a comentar aquest main quan vulguis executar els tests amb maven test
     // Vuelve a comentar este main cuando quieras ejecutar los tests con:
     // mvn test
