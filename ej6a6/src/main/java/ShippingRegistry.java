@@ -144,42 +144,79 @@ import java.util.*;
  * // PKG002 -> [Valencia, Sevilla]
  */
 public class ShippingRegistry {
+    
+    public ShippingRegistry()
+    {
 
-    public static Map<String, Set<String>> createShippingRegistry() {
+    }    
+    
+
+    public static Map<String, Set<String>> createShippingRegistry() 
+    {
         // TODO: Return a new empty HashMap
-        return null;
+        Map<String , Set<String>>  registry  = new HashMap<>();  
+        return registry;
+
     }
 
     public static void registerPackage(Map<String, Set<String>> registry, String packageId, Set<String> destinations) {
         // TODO: Add packageId and its destinations to the map (can replace if exists)
+       
+       Set<String> newSet = new HashSet<>();
+        for (String destination : destinations) 
+            {
+            newSet.add(destination);
+            }
+             registry.put(packageId, newSet);
+            
+
     }
 
-    public static void addDestination(Map<String, Set<String>> registry, String packageId, String destination) {
+    public static void addDestination(Map<String, Set<String>> registry, String packageId, String destination) 
+    {
         // TODO: Add a destination to an existing package (if packageId exists)
+        if (registry.containsKey(packageId)) 
+            {
+               (registry.get(packageId)).add(destination);
+            }   
+
     }
 
     public static List<String> listPackages(Map<String, Set<String>> registry) {
         // TODO: Return a list of all package IDs
+        return new ArrayList<>(registry.keySet());
+
        
     }
 
     public static Set<String> getAllDestinations(Map<String, Set<String>> registry) {
         // TODO: Return all unique destinations from the registry
+        Set<String> allDestinations = new HashSet<>();
+        for (Set<String> destinations : registry.values()) {
+            allDestinations.addAll(destinations);
+        }
+        return allDestinations;
        
     }
 
     public static void printRegistry(Map<String, Set<String>> registry) {
         // TODO: Print each package ID and its destinations
+        for (Map.Entry<String, Set<String>> entry : registry.entrySet()) {
+            System.out.println(entry.getKey() + " -> " + entry.getValue());
+        }
+
     }
 
     public static void removePackage(Map<String, Set<String>> registry, String packageId) {
         // TODO: Remove the package from the registry
+        registry.remove(packageId);
+
     }
 
     // -------------------------------------------------------------
     // Manual test using IDE
     // -------------------------------------------------------------
-    /*
+    
     public static void main(String[] args) {
         Map<String, Set<String>> registry = createShippingRegistry();
         registerPackage(registry, "PKG001", Set.of("Madrid", "Barcelona"));
@@ -194,7 +231,7 @@ public class ShippingRegistry {
         removePackage(registry, "PKG001");
         printRegistry(registry);
     }
-    */
+    
 	// Torna a comentar aquest main quan vulguis executar els tests amb maven test
     // Vuelve a comentar este main cuando quieras ejecutar los tests con:
     // mvn test
